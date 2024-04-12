@@ -76,12 +76,24 @@ contract Arbitrage is Test {
         uint256 tokensBefore = tokenB.balanceOf(arbitrager);
         console.log("Before Arbitrage tokenB Balance: %s", tokensBefore);
         tokenB.approve(address(router), 5 ether);
-        /**
-         * Please add your solution below
-         */
-        /**
-         * Please add your solution above
-         */
+
+        address[] memory path = new address[](5);
+        path[0] = address(tokenB);
+        path[1] = address(tokenA);
+        path[2] = address(tokenD);
+        path[3] = address(tokenC);
+        path[4] = address(tokenB);
+
+        router.swapExactTokensForTokens(
+            5 ether,           
+            0,                  
+            path,                
+            arbitrager,           
+            block.timestamp + 300 
+        );
+
+        
+
         uint256 tokensAfter = tokenB.balanceOf(arbitrager);
         assertGt(tokensAfter, 20 ether);
         console.log("After Arbitrage tokenB Balance: %s", tokensAfter);
